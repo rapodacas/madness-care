@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poly's Compass — Operations Dashboard</title>
+<style>
+  :root { --brand: #2d6a4f; --brand-light: #40916c; --brand-bg: #f0f7f4; --accent: #d4a373; --text: #1a1a1a; --muted: #555; --bg: #fff; --card: #f8f9fa; --border: #e0e0e0; --red: #c62828; --yellow: #f9a825; --green: #2e7d32; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; color: var(--text); background: #f5f5f5; line-height: 1.6; }
+
+  .header { background: linear-gradient(135deg, #1b4332, var(--brand)); color: #fff; padding: 32px 24px 24px; }
+  .header h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.5px; }
+  .header .sub { font-size: 0.95rem; opacity: 0.8; margin-top: 4px; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+  /* Readiness meter */
+  .readiness { background: var(--bg); border-radius: 12px; padding: 24px 28px; margin: -28px 24px 24px; max-width: 900px; margin-left: auto; margin-right: auto; box-shadow: 0 4px 16px rgba(0,0,0,0.08); position: relative; z-index: 2; }
+  .readiness h2 { font-size: 1.1rem; color: var(--muted); margin-bottom: 12px; }
+  .meter-bar { height: 20px; background: var(--border); border-radius: 10px; overflow: hidden; }
+  .meter-fill { height: 100%; border-radius: 10px; transition: width 0.5s; }
+  .meter-fill.red { background: var(--red); }
+  .meter-fill.yellow { background: var(--yellow); }
+  .meter-fill.green { background: var(--green); }
+  .meter-label { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.85rem; color: var(--muted); }
+
+  /* Step cards */
+  .step-card { background: var(--bg); border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); overflow: hidden; }
+  .step-header { display: flex; align-items: center; gap: 16px; padding: 20px 24px; cursor: pointer; user-select: none; }
+  .step-header:hover { background: var(--card); }
+  .step-num { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; color: #fff; flex-shrink: 0; }
+  .step-num.not-ready { background: var(--border); color: var(--muted); }
+  .step-num.in-progress { background: var(--yellow); }
+  .step-num.ready { background: var(--green); }
+  .step-title { flex: 1; }
+  .step-title h3 { font-size: 1.05rem; color: var(--brand); }
+  .step-title .desc { font-size: 0.85rem; color: var(--muted); }
+  .step-status { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 4px 12px; border-radius: 12px; }
+  .step-status.not-ready { background: #fce4ec; color: var(--red); }
+  .step-status.in-progress { background: #fff8e1; color: #e65100; }
+  .step-status.ready { background: #e8f5e9; color: var(--green); }
+  .step-toggle { font-size: 1.2rem; color: var(--muted); transition: transform 0.2s; }
+  .step-card.open .step-toggle { transform: rotate(180deg); }
+
+  .step-body { display: none; padding: 0 24px 24px; border-top: 1px solid var(--border); }
+  .step-card.open .step-body { display: block; padding-top: 20px; }
+
+  /* Tool list */
+  .tool-list { list-style: none; }
+  .tool-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .tool-item:last-child { border: none; }
+  .tool-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+  .tool-icon.absent { background: #fce4ec; color: var(--red); }
+  .tool-icon.ready { background: #e8f5e9; color: var(--green); }
+  .tool-info { flex: 1; }
+  .tool-name { font-weight: 600; font-size: 0.95rem; }
+  .tool-desc { font-size: 0.82rem; color: var(--muted); }
+  .tool-action { font-size: 0.8rem; }
+  .tool-action a { color: var(--brand); text-decoration: none; font-weight: 600; }
+  .tool-action a:hover { text-decoration: underline; }
+  .tool-action .coming { color: var(--muted); font-style: italic; }
+
+  /* Footer */
+  footer { text-align: center; padding: 32px 24px; color: var(--muted); font-size: 0.8rem; }
+  footer a { color: var(--brand); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .step-header { padding: 16px; gap: 12px; }
+    .step-status { display: none; }
+    .readiness { margin: -20px 16px 16px; padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="container">
+    <h1>Poly's Compass &mdash; Operations</h1>
+    <div class="sub">Business readiness dashboard. Each step needs tools before we're open.</div>
+  </div>
+</div>
+
+<div class="container">
+<div class="readiness">
+  <h2>Business Readiness</h2>
+  <div class="meter-bar"><div class="meter-fill red" style="width: 0%"></div></div>
+  <div class="meter-label"><span>0 of 5 steps operational</span><span>Not ready</span></div>
+</div>
+</div>
+
+<div class="container" style="padding-top: 8px;">
+
+<!-- STEP 1 -->
+<div class="step-card open" id="step1">
+  <div class="step-header" onclick="toggle('step1')">
+    <div class="step-num not-ready">1</div>
+    <div class="step-title">
+      <h3>Vet Caregivers</h3>
+      <div class="desc">Interviews, background checks, skills assessment</div>
+    </div>
+    <span class="step-status not-ready">0 / 5 tools</span>
+    <span class="step-toggle">&#9662;</span>
+  </div>
+  <div class="step-body">
+    <ul class="tool-list">
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Caregiver Application Form</div>
+          <div class="tool-desc">Online intake: contact info, experience, certifications, availability, languages, specialties</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Background Check Integration</div>
+          <div class="tool-desc">Submit and track background checks. Link to results. CDSS compliance.</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Skills Assessment Checklist</div>
+          <div class="tool-desc">Standardized evaluation: transfers, medication management, meal prep, hygiene, mobility, dementia care</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Caregiver Roster</div>
+          <div class="tool-desc">Active caregiver directory: profiles, availability, match history, status, certifications</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Interview Script &amp; Scoring</div>
+          <div class="tool-desc">Vinny's structured interview questions with scoring rubric. What to look for, red flags.</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- STEP 2 -->
+<div class="step-card" id="step2">
+  <div class="step-header" onclick="toggle('step2')">
+    <div class="step-num not-ready">2</div>
+    <div class="step-title">
+      <h3>Build Relationships with Families</h3>
+      <div class="desc">Referrals from hospitals, senior centers, rehab, community</div>
+    </div>
+    <span class="step-status not-ready">0 / 5 tools</span>
+    <span class="step-toggle">&#9662;</span>
+  </div>
+  <div class="step-body">
+    <ul class="tool-list">
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Family Intake Form</div>
+          <div class="tool-desc">Online form: loved one's needs, schedule, location, languages, personality, budget, urgency</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Referral Source Tracker</div>
+          <div class="tool-desc">Log referral sources: hospitals, senior centers, word of mouth. Track which channels produce matches.</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Outreach Materials</div>
+          <div class="tool-desc">Flyers, business cards, one-pagers for discharge planners. Print-ready PDFs.</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Family CRM</div>
+          <div class="tool-desc">Contact log: family name, needs, status (inquiry / matched / active / inactive), follow-up dates</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Referral Partner Kit</div>
+          <div class="tool-desc">Package for discharge planners and senior center staff: what Poly's Compass does, how to refer, contact info</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- STEP 3 -->
+<div class="step-card" id="step3">
+  <div class="step-header" onclick="toggle('step3')">
+    <div class="step-num not-ready">3</div>
+    <div class="step-title">
+      <h3>Make the Match</h3>
+      <div class="desc">Personality, language, physical needs, schedule, location</div>
+    </div>
+    <span class="step-status not-ready">0 / 4 tools</span>
+    <span class="step-toggle">&#9662;</span>
+  </div>
+  <div class="step-body">
+    <ul class="tool-list">
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Matching Worksheet</div>
+          <div class="tool-desc">Side-by-side comparison: family needs vs. caregiver profile. Score compatibility on key dimensions.</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Availability Calendar</div>
+          <div class="tool-desc">Visual calendar showing caregiver availability vs. family schedule needs. Spot conflicts instantly.</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Match History Log</div>
+          <div class="tool-desc">Track all matches: who was paired, when, outcome. Learn what works, what doesn't.</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Introduction Script</div>
+          <div class="tool-desc">Vinny's playbook for the first meeting: what to say, what to watch for, how to set expectations</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- STEP 4 -->
+<div class="step-card" id="step4">
+  <div class="step-header" onclick="toggle('step4')">
+    <div class="step-num not-ready">4</div>
+    <div class="step-title">
+      <h3>Contract &amp; Onboard</h3>
+      <div class="desc">Caregiver and family contract directly &mdash; clean, simple, transparent</div>
+    </div>
+    <span class="step-status not-ready">0 / 5 tools</span>
+    <span class="step-toggle">&#9662;</span>
+  </div>
+  <div class="step-body">
+    <ul class="tool-list">
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Service Agreement Template</div>
+          <div class="tool-desc">Poly's Compass &harr; Family agreement: placement fee, subscription terms, services included, cancellation policy</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Caregiver-Family Contract Template</div>
+          <div class="tool-desc">Direct employment agreement between family and caregiver: rate, schedule, duties, expectations</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Caregiver Registry Agreement</div>
+          <div class="tool-desc">Poly's Compass &harr; Caregiver: subscription terms, code of conduct, background check consent</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Onboarding Checklist</div>
+          <div class="tool-desc">Step-by-step: placement fee collected, agreements signed, first day scheduled, emergency contacts exchanged</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Care Plan Template</div>
+          <div class="tool-desc">Document the client's daily needs: medications, mobility, meals, routines, preferences, emergency protocol</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- STEP 5 -->
+<div class="step-card" id="step5">
+  <div class="step-header" onclick="toggle('step5')">
+    <div class="step-num not-ready">5</div>
+    <div class="step-title">
+      <h3>Billing &amp; Ongoing Management</h3>
+      <div class="desc">5% service fee + monthly subscriptions + check-ins</div>
+    </div>
+    <span class="step-status not-ready">0 / 5 tools</span>
+    <span class="step-toggle">&#9662;</span>
+  </div>
+  <div class="step-body">
+    <ul class="tool-list">
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Invoice Generator</div>
+          <div class="tool-desc">Weekly invoices for families: caregiver hours + 5% fee. Auto-calculate from logged hours.</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Subscription Tracker</div>
+          <div class="tool-desc">Track monthly payments: family $99/mo, caregiver $49/mo. Due dates, payment status, grace periods.</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Hours Log</div>
+          <div class="tool-desc">Caregivers log hours, families confirm. Weekly summary feeds into invoicing.</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Monthly Check-in Script</div>
+          <div class="tool-desc">Vinny's structured check-in: questions to ask the family, what to document, when to escalate</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+      <li class="tool-item">
+        <div class="tool-icon absent">&#10007;</div>
+        <div class="tool-info">
+          <div class="tool-name">Revenue Dashboard</div>
+          <div class="tool-desc">At-a-glance: active matches, monthly revenue, placement fees collected, subscription status, churn</div>
+        </div>
+        <div class="tool-action"><span class="coming">Not built</span></div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+</div>
+
+<footer>
+  <a href="index.html">&larr; Poly's Compass</a> &mdash; Operations Dashboard &mdash; Admin Only
+</footer>
+
+<script>
+function toggle(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+</script>
+</body>
+</html>
