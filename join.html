@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Madness Care — Join Our Network</title>
+<style>
+  :root { --brand: #2d6a4f; --brand-light: #40916c; --brand-bg: #f0f7f4; --accent: #d4a373; --text: #1a1a1a; --muted: #555; --bg: #fff; --card: #f8f9fa; --border: #e0e0e0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; }
+
+  /* Nav tabs */
+  .tab-bar { display: flex; justify-content: center; background: #1b4332; padding: 0; position: sticky; top: 0; z-index: 10; }
+  .tab-bar a { color: rgba(255,255,255,0.7); text-decoration: none; padding: 16px 32px; font-weight: 600; font-size: 0.95rem; transition: all 0.2s; border-bottom: 3px solid transparent; }
+  .tab-bar a:hover, .tab-bar a.active { color: #fff; border-bottom-color: var(--accent); }
+
+  .hero { text-align: center; padding: 70px 24px 50px; }
+  .hero h1 { font-size: 2.6rem; font-weight: 700; color: var(--brand); letter-spacing: -1px; }
+  .hero .tagline { font-size: 1.2rem; color: var(--muted); margin-top: 8px; }
+
+  .container { max-width: 780px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 40px 0; }
+  section:nth-child(even) { background: var(--brand-bg); }
+  h2 { font-size: 1.5rem; color: var(--brand); margin-bottom: 16px; }
+  p { margin-bottom: 14px; }
+
+  /* Big number */
+  .big-number { text-align: center; padding: 50px 24px; }
+  .big-number .num { font-size: 4.5rem; font-weight: 700; color: var(--brand); line-height: 1; }
+  .big-number .label { font-size: 1.3rem; color: var(--muted); margin-top: 8px; }
+  .big-number .compare { font-size: 1rem; color: var(--accent); margin-top: 12px; font-weight: 600; }
+
+  /* Side by side */
+  .vs { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0; margin: 30px 0; align-items: stretch; }
+  .vs-them, .vs-us { padding: 28px; border-radius: 12px; }
+  .vs-them { background: #fafafa; border: 1px solid var(--border); }
+  .vs-us { background: var(--brand-bg); border: 2px solid var(--brand); }
+  .vs-divider { display: flex; align-items: center; justify-content: center; padding: 0 16px; font-size: 1.4rem; font-weight: 700; color: var(--muted); }
+  .vs-them h3 { color: var(--muted); margin-bottom: 12px; }
+  .vs-us h3 { color: var(--brand); margin-bottom: 12px; }
+  .vs-item { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+  .vs-item:last-child { border: none; }
+  .vs-item .val { font-weight: 700; font-size: 1.1rem; }
+  .vs-them .val { color: #c62828; }
+  .vs-us .val { color: var(--brand); }
+
+  /* Simple list */
+  .simple-list { list-style: none; margin: 20px 0; }
+  .simple-list li { padding: 14px 16px 14px 48px; position: relative; background: var(--bg); border-radius: 8px; margin-bottom: 8px; border: 1px solid var(--border); font-size: 0.95rem; }
+  .simple-list li::before { content: "\2713"; position: absolute; left: 16px; top: 13px; width: 24px; height: 24px; background: var(--brand); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; }
+
+  /* Pricing simple */
+  .pricing { text-align: center; margin: 30px 0; }
+  .pricing .price-box { display: inline-block; background: var(--bg); border: 2px solid var(--brand); border-radius: 16px; padding: 32px 48px; }
+  .pricing .price-main { font-size: 1rem; color: var(--muted); margin-bottom: 8px; }
+  .pricing .price-amount { font-size: 2.4rem; font-weight: 700; color: var(--brand); }
+  .pricing .price-amount span { font-size: 1rem; font-weight: 400; color: var(--muted); }
+  .pricing .price-note { font-size: 0.9rem; color: var(--muted); margin-top: 8px; }
+  .pricing .price-free { display: inline-block; margin-top: 12px; background: var(--accent); color: #fff; padding: 4px 16px; border-radius: 12px; font-size: 0.85rem; font-weight: 600; }
+
+  /* CTA */
+  .cta { text-align: center; padding: 50px 24px; background: linear-gradient(135deg, var(--brand), var(--brand-light)); color: #fff; }
+  .cta h2 { color: #fff; margin-bottom: 12px; }
+  .cta p { color: rgba(255,255,255,0.85); max-width: 500px; margin: 0 auto 24px; }
+  .cta a { display: inline-block; background: var(--accent); color: #fff; text-decoration: none; padding: 14px 36px; border-radius: 8px; font-weight: 700; font-size: 1.05rem; }
+  .cta a:hover { background: #c49565; }
+  .cta .phone { margin-top: 16px; font-size: 1.1rem; opacity: 0.9; }
+
+  /* Testimonial placeholder */
+  .quote { background: var(--bg); border-left: 4px solid var(--accent); padding: 20px 24px; border-radius: 0 8px 8px 0; margin: 24px 0; font-style: italic; color: var(--muted); font-size: 1.05rem; }
+
+  footer { text-align: center; padding: 20px; color: var(--muted); font-size: 0.8rem; }
+
+  @media (max-width: 650px) {
+    .vs { grid-template-columns: 1fr; }
+    .vs-divider { padding: 12px 0; }
+    .big-number .num { font-size: 3.5rem; }
+    .hero h1 { font-size: 2rem; }
+    .tab-bar a { padding: 14px 20px; font-size: 0.85rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="tab-bar">
+  <a href="#providers" class="active">For Caregivers</a>
+  <a href="#families">For Families</a>
+</div>
+
+<!-- ==================== CAREGIVERS ==================== -->
+
+<div id="providers">
+
+<div class="hero">
+  <h1>Earn What You're Worth</h1>
+  <div class="tagline">Join San Diego County's caregiver network</div>
+</div>
+
+<div class="big-number" style="background:var(--brand-bg);">
+  <div class="num">$30/hr</div>
+  <div class="label">Average pay for Madness Care providers</div>
+  <div class="compare">Agencies pay $18&ndash;22. You deserve more.</div>
+</div>
+
+<section>
+<div class="container">
+  <div class="vs">
+    <div class="vs-them">
+      <h3>Working for an Agency</h3>
+      <div class="vs-item">Pay: <span class="val">$18&ndash;22/hr</span></div>
+      <div class="vs-item">They keep: <span class="val">40&ndash;50%</span> of what the family pays</div>
+      <div class="vs-item">Hours: whatever they give you</div>
+      <div class="vs-item">Clients: no choice</div>
+      <div class="vs-item">Monthly cost: <span class="val">~$2,500+ in lost wages</span></div>
+    </div>
+    <div class="vs-divider">vs</div>
+    <div class="vs-us">
+      <h3>Working with Madness Care</h3>
+      <div class="vs-item">Pay: <span class="val">$30/hr average</span></div>
+      <div class="vs-item">We keep: <span class="val">a small monthly fee</span></div>
+      <div class="vs-item">Hours: you set your schedule</div>
+      <div class="vs-item">Clients: matched to your strengths</div>
+      <div class="vs-item">Monthly cost: <span class="val">$49</span></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section>
+<div class="container">
+  <h2>What You Get</h2>
+  <ul class="simple-list">
+    <li>Steady client referrals &mdash; no more hustling for work</li>
+    <li>Clients matched to your skills, schedule, and personality</li>
+    <li>Background check on file &mdash; no paying for a new one at every agency</li>
+    <li>Support when care situations get difficult</li>
+    <li>You're independent &mdash; not an agency employee</li>
+  </ul>
+</div>
+</section>
+
+<section>
+<div class="container">
+  <h2>What It Costs</h2>
+  <div class="pricing">
+    <div class="price-box">
+      <div class="price-main">Monthly membership</div>
+      <div class="price-amount">$49<span>/month</span></div>
+      <div class="price-note">That's it. No percentage of your pay. No hidden fees.</div>
+      <div class="price-free">First 90 days free</div>
+    </div>
+  </div>
+  <div class="quote">"At an agency, I was making $20/hr and they were charging the family $40. I was doing all the work and keeping half. That math never made sense to me."</div>
+</div>
+</section>
+
+<div class="cta">
+  <h2>Ready to Earn More?</h2>
+  <p>We're building our caregiver network across San Diego County. Get in early.</p>
+  <a href="mailto:v.apodaca@yahoo.com?subject=Caregiver%20Inquiry%20-%20Madness%20Care">Join the Network</a>
+  <div class="phone">Or call/text: (559) 918-5070</div>
+</div>
+
+</div>
+
+<!-- ==================== FAMILIES ==================== -->
+
+<div id="families">
+
+<div class="hero" style="padding-top:50px;">
+  <h1>Quality Care. Fair Price.</h1>
+  <div class="tagline">In-home caregivers vetted by someone who's done the work for 25 years</div>
+</div>
+
+<div class="big-number" style="background:var(--brand-bg);">
+  <div class="num">$33/hr</div>
+  <div class="label">Average rate for families</div>
+  <div class="compare">Agencies charge $35&ndash;45. Your caregiver earns more. You pay less.</div>
+</div>
+
+<section>
+<div class="container">
+  <div class="vs">
+    <div class="vs-them">
+      <h3>Hiring Through an Agency</h3>
+      <div class="vs-item">You pay: <span class="val">$35&ndash;45/hr</span></div>
+      <div class="vs-item">Caregiver gets: <span class="val">less than half</span></div>
+      <div class="vs-item">Caregiver calls out: <span class="val">you figure it out</span></div>
+      <div class="vs-item">Not working out: <span class="val">start over, pay again</span></div>
+      <div class="vs-item">Who vetted them: <span class="val">an algorithm</span></div>
+    </div>
+    <div class="vs-divider">vs</div>
+    <div class="vs-us">
+      <h3>Hiring Through Madness Care</h3>
+      <div class="vs-item">You pay: <span class="val">~$33/hr</span></div>
+      <div class="vs-item">Caregiver gets: <span class="val">$30/hr</span></div>
+      <div class="vs-item">Caregiver calls out: <span class="val">we send a backup</span></div>
+      <div class="vs-item">Not working out: <span class="val">free replacement</span></div>
+      <div class="vs-item">Who vetted them: <span class="val">a 25-year caregiver</span></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section>
+<div class="container">
+  <h2>What You Get</h2>
+  <ul class="simple-list">
+    <li>A caregiver matched to your loved one's needs, personality, and schedule</li>
+    <li>Every caregiver background-checked and personally vetted</li>
+    <li>Backup coverage &mdash; if your caregiver can't make it, we send someone else</li>
+    <li>Monthly check-in &mdash; we call you to make sure everything is going well</li>
+    <li>Replacement guarantee &mdash; not the right fit? We find someone new, no extra charge</li>
+  </ul>
+</div>
+</section>
+
+<section>
+<div class="container">
+  <h2>Simple Pricing</h2>
+  <div class="pricing">
+    <div class="price-box">
+      <div class="price-main">One-time setup</div>
+      <div class="price-amount">$500</div>
+      <div class="price-note" style="margin-bottom:20px;">Covers vetting, matching, and onboarding your caregiver</div>
+      <div class="price-main">Monthly membership</div>
+      <div class="price-amount">$149<span>/month</span></div>
+      <div class="price-note">Backup coverage, check-ins, replacement guarantee, and support</div>
+    </div>
+  </div>
+  <p style="text-align:center; color:var(--muted); margin-top:16px;">Caregiver rate averages $33/hr &mdash; still less than what agencies charge, and your caregiver takes home more.</p>
+</div>
+</section>
+
+<section>
+<div class="container">
+  <h2>Who's Behind Madness Care</h2>
+  <p>Madness Care was founded by a caregiver with <strong>25 years of hands-on experience</strong> &mdash; including caring for his own mother through end of life. He's not a tech company. He's not an algorithm. He's someone who has done the work, knows what good care looks like, and personally matches every caregiver to every family.</p>
+  <p>CPR certified. Hoyer lift trained. Wheelchair lift trained. This is care managed by someone who understands it from the inside.</p>
+</div>
+</section>
+
+<div class="cta">
+  <h2>Find the Right Caregiver</h2>
+  <p>Tell us about your loved one's needs. We'll find the right match.</p>
+  <a href="mailto:v.apodaca@yahoo.com?subject=Family%20Inquiry%20-%20Madness%20Care">Get Started</a>
+  <div class="phone">Or call/text: (559) 918-5070</div>
+</div>
+
+</div>
+
+<footer>&copy; 2026 Madness Care &mdash; San Diego County Home Care Registry</footer>
+</body>
+</html>
