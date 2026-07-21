@@ -149,7 +149,7 @@
 </footer>
 
 <script>
-const API_BASE = 'https://polys-compass-api.onrender.com';
+const API_BASE = localStorage.getItem('pc-api-url') || 'http://localhost:3001';
 
 const STEPS = [
   { id: 'step1', num: 1, title: 'Vet Caregivers', desc: 'Interviews, background checks, skills assessment', tools: [
