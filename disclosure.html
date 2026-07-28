@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poly's Compass — Registry & Independent Contractor Disclosure</title>
+<style>
+  :root { --brand: #2d6a4f; --brand-light: #40916c; --brand-bg: #f0f7f4; --accent: #d4a373; --text: #1a1a1a; --muted: #555; --bg: #fff; --border: #e0e0e0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; }
+  .topbar { background: #1b4332; color: #fff; padding: 14px 24px; display: flex; align-items: center; gap: 12px; }
+  .topbar a { color: rgba(255,255,255,0.85); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+  .topbar a:hover { color: #fff; }
+  .topbar .brand { font-weight: 700; }
+  .hero { text-align: center; padding: 48px 24px 24px; background: var(--brand-bg); }
+  .hero h1 { font-size: 1.9rem; color: var(--brand); letter-spacing: -0.5px; }
+  .hero .tagline { color: var(--muted); margin-top: 6px; }
+  .container { max-width: 780px; margin: 0 auto; padding: 32px 24px 56px; }
+  .container p { margin-bottom: 16px; }
+  .lead { font-size: 1.05rem; }
+  ol.terms { list-style: none; counter-reset: t; margin: 24px 0; }
+  ol.terms li { counter-increment: t; position: relative; padding: 16px 16px 16px 56px; margin-bottom: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; }
+  ol.terms li::before { content: counter(t); position: absolute; left: 16px; top: 16px; width: 28px; height: 28px; background: var(--brand); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; }
+  ol.terms li strong { color: var(--brand); }
+  .note { background: var(--brand-bg); border-left: 4px solid var(--accent); padding: 16px 20px; border-radius: 0 8px 8px 0; color: var(--muted); font-size: 0.92rem; margin-top: 24px; }
+  footer { text-align: center; padding: 24px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+  @media (max-width: 600px) { .hero h1 { font-size: 1.5rem; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="brand">Poly's Compass</span>
+  <a href="index.html">&larr; Home</a>
+  <a href="join.html">Join</a>
+</div>
+
+<div class="hero">
+  <h1>Registry &amp; Independent Contractor Disclosure</h1>
+  <div class="tagline">How Poly's Compass works &mdash; in plain language</div>
+</div>
+
+<div class="container">
+  <p class="lead">Poly's Compass is a caregiver <strong>referral registry</strong> serving families in San Diego County. We connect families with independent, vetted caregivers. We are <strong>not a home care agency, not a staffing agency, and not an employer.</strong></p>
+
+  <p>By using Poly's Compass, you understand and agree that:</p>
+
+  <ol class="terms">
+    <li><strong>Caregivers are independent contractors.</strong> They are not employees of Poly's Compass. We do not hire, employ, supervise, direct, schedule, or control how a caregiver performs their work.</li>
+    <li><strong>You set the rate.</strong> The family and caregiver negotiate and agree on the pay rate directly. Poly's Compass may suggest a fair market range, but does not set, require, or control wages.</li>
+    <li><strong>We don't pay wages.</strong> Payments are processed through Stripe Connect, which pays the caregiver their full agreed rate directly. Poly's Compass collects only its service fee and membership fees &mdash; never the caregiver's wages.</li>
+    <li><strong>Taxes are the caregiver's responsibility.</strong> Each caregiver is an independent contractor responsible for their own taxes and will receive the appropriate tax form (for example, a 1099-K from the payment processor). Poly's Compass does not withhold taxes, pay payroll or employment taxes, or provide workers' compensation or unemployment insurance for caregivers. Depending on the arrangement, a family may have household-employer tax obligations of its own and should consult a tax professional.</li>
+    <li><strong>Vetting, not a guarantee.</strong> We screen caregivers (interviews, background checks, credential review) and share what we find, but the family makes its own hiring decision. Poly's Compass does not guarantee, and is not responsible for, the acts, omissions, or performance of any caregiver.</li>
+    <li><strong>Your choice, either way.</strong> The family may accept or decline any referral, and the family or caregiver may end the arrangement at any time under their own agreement.</li>
+    <li><strong>Our optional services.</strong> Membership conveniences &mdash; backup coverage, check-ins, replacement matching, credential tracking, and mediation &mdash; are support services. They do not make Poly's Compass the caregiver's employer or the party responsible for the care delivered.</li>
+  </ol>
+
+  <div class="note">This disclosure is provided for transparency. Poly's Compass is a registry connecting independent caregivers with families; it is not the employer of any caregiver and does not provide the care itself.</div>
+</div>
+
+<footer>&copy; 2026 Poly's Compass &mdash; San Diego County Home Care Registry</footer>
+</body>
+</html>

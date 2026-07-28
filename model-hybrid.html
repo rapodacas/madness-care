@@ -139,9 +139,25 @@
     <div class="timeline-item">
       <h3>Month 4+: Caregiver Pays Too</h3>
       <p>After 90 days, caregiver subscription begins: <span class="money">$49/mo</span><br>
-      Total from this one match: <span class="money">$388/month</span></p>
+      Total from this one match: <span class="money">$388/month</span> <span style="font-size:0.85rem;color:var(--muted);">(before payment processing &mdash; see below)</span></p>
     </div>
   </div>
+</div>
+</section>
+
+<!-- Payment Processing -->
+<section>
+<div class="container">
+  <h2>Payment Processing (Stripe Connect)</h2>
+  <p>Payments run through Stripe Connect &mdash; the caregiver is paid their full agreed rate directly, and our 5% is collected automatically as a platform fee. Processing fees are real, and the payment rail you choose changes the margin dramatically:</p>
+  <table>
+    <tr><th>Rail</th><th>Fee covered by</th><th>Family pays</th><th>Stripe takes</th><th>Poly's Compass nets*</th></tr>
+    <tr><td>Card</td><td>Platform absorbs</td><td>$31.50/hr</td><td>~$147/mo</td><td style="color:#c62828; font-weight:700;">$79/mo</td></tr>
+    <tr><td>Card</td><td>Family covers</td><td>$32.42/hr</td><td>~$152/mo</td><td class="highlight">$226/mo</td></tr>
+    <tr class="winner"><td><strong>ACH (bank)</strong></td><td>Family covers</td><td><strong>$31.63/hr</strong></td><td><strong>~$20/mo</strong></td><td class="highlight"><strong>$226/mo</strong></td></tr>
+  </table>
+  <p><strong>Takeaway:</strong> on <strong>cards</strong>, the 2.9% + 30&cent; fee eats most of the 5% service fee &mdash; absorbing it leaves only ~$79 per match. On <strong>ACH bank debit</strong> (0.8%, capped at $5 per charge) the fee is trivial. <strong>Use ACH</strong> and pass the small processing cost to the family: they pay ~$31.63/hr instead of $31.50, and Poly's Compass keeps essentially the full service fee.</p>
+  <p style="font-size:0.85rem; color:var(--muted);">*Net of Stripe processing and estimated Connect account fees, per match at $30/hr &times; 160 hrs/mo, billed weekly. These numbers are computed live in the app at <code>/api/economics</code>.</p>
 </div>
 </section>
 
