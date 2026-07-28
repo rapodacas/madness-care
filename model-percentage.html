@@ -43,20 +43,20 @@
 
 <div class="hero">
   <h1>Model A: Percentage</h1>
-  <div class="tagline">Payments flow through Poly's Compass &mdash; 15% service fee on every hour</div>
+  <div class="tagline">15% service fee, collected automatically by the platform &mdash; caregiver and family agree the rate</div>
 </div>
 
 <section>
 <div class="container">
   <h2>How It Works</h2>
-  <p>All payments route through Poly's Compass. The family pays Vinny. Vinny pays the caregiver. The 15% service fee is built into the rate the family sees &mdash; the caregiver always knows exactly what they earn.</p>
+  <p>Payments run through Stripe Connect. The family and caregiver agree a rate; the family funds the payment on the platform, the caregiver receives their full agreed rate directly, and Poly's Compass's 15% service fee is collected automatically as a platform fee. Poly's Compass never holds or pays out wages &mdash; and the caregiver always knows exactly what they earn.</p>
   <table>
     <tr><th></th><th>Agency</th><th>Poly's Compass</th></tr>
     <tr><td>Family pays</td><td>$35&ndash;45/hr</td><td class="highlight">$28&ndash;32/hr</td></tr>
     <tr><td>Caregiver earns</td><td>$18&ndash;22/hr</td><td class="highlight">$24&ndash;27/hr</td></tr>
     <tr><td>Middleman takes</td><td>40&ndash;50%</td><td class="highlight">15%</td></tr>
   </table>
-  <p>Example: Caregiver rate is $25/hr. Family pays $29/hr. Vinny keeps <strong>$4/hr</strong>.</p>
+  <p>Example: the caregiver and family agree on $25/hr. The family pays $29/hr on the platform; the 15% service fee &mdash; <strong>$4/hr</strong> &mdash; is collected automatically. The caregiver receives their full $25/hr directly.</p>
 </div>
 </section>
 
@@ -95,12 +95,12 @@
   <p><strong>Weekly cycle:</strong></p>
   <table>
     <tr><th>Step</th><th>What Happens</th></tr>
-    <tr><td>1</td><td>Caregiver logs hours with family confirmation</td></tr>
-    <tr><td>2</td><td>Poly's Compass invoices the family (caregiver rate + 15%)</td></tr>
-    <tr><td>3</td><td>Family pays Poly's Compass via Zelle, Venmo, or check</td></tr>
-    <tr><td>4</td><td>Poly's Compass pays the caregiver their full rate</td></tr>
+    <tr><td>1</td><td>Caregiver logs hours; family confirms</td></tr>
+    <tr><td>2</td><td>The platform charges the family the agreed rate + 15% via Stripe</td></tr>
+    <tr><td>3</td><td>Stripe Connect pays the caregiver their full agreed rate directly</td></tr>
+    <tr><td>4</td><td>Poly's Compass's 15% is transferred automatically as a platform fee</td></tr>
   </table>
-  <p>Vinny stays in the middle of every transaction. No one can cut him out because he <em>is</em> the payment channel.</p>
+  <p>Funds never sit in Poly's Compass's account &mdash; Stripe routes the caregiver's pay directly to them and the service fee to Poly's Compass. Clean books, and a clear line that keeps caregivers independent contractors, not employees.</p>
 </div>
 </section>
 
@@ -119,7 +119,7 @@
       <h3>Pros</h3>
       <ul>
         <li>Revenue scales with volume &mdash; more hours = more money</li>
-        <li>Vinny controls the money flow &mdash; can't be cut out</li>
+        <li>Service fee is collected automatically by the platform &mdash; no chasing payments</li>
         <li>Still cheaper than agencies for families</li>
         <li>Still pays more than agencies for caregivers</li>
         <li>Simple to explain: "I take 15%"</li>
